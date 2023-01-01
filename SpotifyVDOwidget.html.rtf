@@ -1,0 +1,54 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!doctype html>\
+<html>\
+  <head>\
+    <title>Spotify Widget</title>\
+  </head>\
+  <body>\
+    <div id="widget">\
+      <p id="track-name">Loading...</p>\
+      <img id="album-cover" src="" alt="Album cover">\
+      <button id="join-button">Join Remote Group Session</button>\
+    </div>\
+    <script>\
+      // Replace YOUR_CLIENT_ID with the client ID from the Spotify application\
+      const clientId = 'ca21a018ab1d4d259b42b3cca67e27dc';\
+      // Replace YOUR_REDIRECT_URI with the redirect URI from the Spotify application\
+      const redirectUri = 'https://github.com/W0rldmind/SpotifyVDO.git';\
+\
+      // Initialize the Spotify API\
+      const spotifyApi = new SpotifyWebApi();\
+\
+      // Get the current track\
+      function getCurrentTrack() \{\
+        spotifyApi.getMyCurrentPlayingTrack()\
+          .then((response) => \{\
+            // Update the track name and album cover\
+            document.getElementById('track-name').innerHTML = response.item.name;\
+            document.getElementById('album-cover').src = response.item.album.images[0].url;\
+          \})\
+          .catch((error) => \{\
+            console.error(error);\
+          \});\
+      \}\
+\
+      // Join a remote group session\
+      function joinRemoteGroupSession() \{\
+        // Redirect the user to the Spotify authorization page\
+        const authUrl = spotifyApi.createAuthorizeURL(['user-modify-playback-state'], redirectUri);\
+        window.location = authUrl;\
+      \}\
+\
+      // Add an event listener to the join button\
+      document.getElementById('join-button').addEventListener('click', joinRemoteGroupSession);\
+\
+      // Get the access token from the URL fragment\
+      function getAccessToken() \{\
+        const fragment = new URLSearch\
+}
